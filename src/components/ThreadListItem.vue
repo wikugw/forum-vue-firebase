@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="thread">
+    <div v-if="thread && user" class="thread">
       <div>
         <p>
           <router-link :to="{name: 'ThreadShow', params: {id: thread['.key']}}">
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import sourceData from '@/data'
 
 export default {
   props: {
@@ -41,10 +40,10 @@ export default {
   },
   computed: {
     repliesCount () {
-      return Object.keys(this.thread.posts).length - 1
+      return this.$store.getters.threadRepliesCount(this.thread['.key'])
     },
     user () {
-      return sourceData.users[this.thread.userId]
+      return this.$store.state.users[this.thread.userId]
     }
   }
 }
