@@ -2,9 +2,8 @@
   <div class="forum-listing">
     <div class="forum-details">
       <router-link
-        href="forum.html"
         class="text-xlarge"
-        :to="{name: 'Forum', params: {id:forum['.key']}}"
+        :to="{name: 'Forum', params: {id: forum['.key']}}"
       >
         {{forum.name}}
       </router-link>
@@ -17,25 +16,27 @@
     </div>
 
     <div class="last-thread">
-
+      <!-- TODO: implement later -->
     </div>
   </div>
 </template>
 
 <script>
-import {countObjectProperties} from '@/utils'
-
-export default {
-  props: {
-    forum: {
-      required: 'true',
-      type: Object
+    import {countObjectProperties} from '@/utils'
+    export default {
+      props: {
+        forum: {
+          required: true,
+          type: Object
+        }
+      },
+      computed: {
+        threadsCount () {
+          return countObjectProperties(this.forum.threads)
+        }
+      }
     }
-  },
-  computed: {
-    threadsCount () {
-      return countObjectProperties(this.forum.threads)
-    }
-  }
-}
 </script>
+
+<style scoped>
+</style>

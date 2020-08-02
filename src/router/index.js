@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PageHome from '@/pages/PageHome'
+import Home from '@/pages/PageHome'
+import Register from '@/pages/pageRegister'
 import ThreadShow from '@/pages/PageThreadShow'
 import ThreadCreate from '@/pages/PageThreadCreate'
 import ThreadEdit from '@/pages/PageThreadEdit'
@@ -16,7 +17,12 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: PageHome
+      component: Home
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/category/:id',
