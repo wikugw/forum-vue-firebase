@@ -5,6 +5,7 @@
       <i>{{thread.title}}</i>
     </h1>
     <ThreadEditor
+      ref="editor"
       :title="thread.title"
       :text="text"
       @save="save"
@@ -33,15 +34,19 @@ export default {
 
   computed: {
     thread () {
-      return this.$store.state.threads[this.id]
+      return this.$store.state.threads.items[this.id]
     },
     text () {
-      const post = this.$store.state.posts[this.thread.firstPostId]
+      const post = this.$store.state.posts.items[this.thread.firstPostId]
       return post ? post.text : null
+    },
+    hasUnsavedChanges () {
+      return this.$refs.editor.form.title !== this.thread.title || this.$refs.editor.form.text !== this.text
     }
   },
   methods: {
-    ...mapActions(['updateThread', 'fetchThread', 'fetchPost']),
+    ...mapActions('threads', ['updateThread', 'fetchThread']),
+    ...mapActions('posts', ['fetchPost']),
     save ({title, text}) {
       this.updateThread({
         id: this.id,
@@ -60,6 +65,19 @@ export default {
     this.fetchThread({id: this.id})
       .then(thread => this.fetchPost({id: thread.firstPostId}))
       .then(() => { this.asyncDataStatus_fetched() })
+  },
+
+  beforeRouteLeave (to, from, next) {
+    if (this.hasUnsavedChanges) {
+      const confirmed = window.confirm('Are you sure you want to leave? Any unsaved changes will be lost!')
+      if (confirmed) {
+        next()
+      } else {
+        next(false)
+      }
+    } else {
+      next()
+    }
   }
 }
 </script>

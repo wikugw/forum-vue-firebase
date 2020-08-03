@@ -3,19 +3,26 @@ import Vuex from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
 import getters from './getters'
+import categories from './modules/categories'
+import forums from './modules/forums'
+import posts from './modules/posts'
+import threads from './modules/threads'
+import users from './modules/users'
+import auth from './modules/auth'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    categories: {},
-    forums: {},
-    threads: {},
-    posts: {},
-    users: {},
-    authId: 'VXjpr2WHa8Ux4Bnggym8QFLdv5C3'
-  },
+  state: {},
   getters,
   actions,
-  mutations
+  mutations,
+  modules: {
+    categories,
+    forums,
+    posts,
+    threads,
+    users,
+    auth
+  }
 })

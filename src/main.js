@@ -5,7 +5,9 @@ import store from './store'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import AppDate from '@/components/AppDate'
+import vuelidate from 'vuelidate'
 
+Vue.use(vuelidate)
 Vue.component('AppDate', AppDate)
 
 Vue.config.productionTip = false
@@ -24,19 +26,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    store.dispatch('fetchAuthUser')
-  }
-})
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App),
-  beforeCreate () {
-    store.dispatch('fetchUser', {id: store.state.authId})
-  }
+  render: h => h(App)
 })
